@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Nav from "./components/Nav";
+import routes from "./routes";
+import {withRouter} from 'react-router';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    console.log(this.props.location.pathname)
+    return (
+      <div className="App">
+        {this.props.location.pathname === "/" ?
+        <div className='auth-container' >
+          {routes}
+        </div>
+        :
+        <div>
+          <Nav/>
+        {routes}
+        </div>
+      }
+      </div>
+    );
+  }
 }
 
-export default App;
+export default withRouter(App);
