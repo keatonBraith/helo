@@ -35,7 +35,8 @@ app.post("/auth/login", ctrl.login);
 app.post("/auth/register", ctrl.register);
 app.delete("/auth/logout", ctrl.logout);
 app.get("/auth/user", ctrl.getUser);
-// app.get('/api/posts', ctrl.getPosts);
+app.get('/api/posts', ctrl.getAll);
+app.get('/api/post/:id', ctrl.getOne);
 
 app.listen(SERVER_PORT, () => {
   console.log(`Luke, the server ${SERVER_PORT} is your father!`);

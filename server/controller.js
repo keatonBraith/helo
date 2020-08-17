@@ -10,11 +10,7 @@ module.exports = {
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-    const [newUser] = await db.create_user([
-      username,
-      hash,
-      profilePic
-    ]);
+    const [newUser] = await db.create_user([username, hash, profilePic]);
     req.session.user = {
       userId: newUser.user_id,
       username: newUser.username,
@@ -59,8 +55,26 @@ module.exports = {
     }
   },
 
-  // getPosts: (req, res) => {
-  //   const db = req.app.get('db');
+  getAll: (req, res) => {
+    const db = req.app.get('db');
+    const { title, username, profilePic, content } = req.body;
+    db.get_posts(title, username, profilePic, content)
+      .then(posts => res.status(200).send(posts))
+      .catch(err => {
+        res.status(500).send({ errorMessage: "Could not get Posts" });
+        console.log(err)
+      });
+  },
 
-  // }
+  getOne: (req, res) => {
+    const db = req.app.get('db');
+    const { id } = req.params;
+
+    db.get_post(id)
+      .then(posts => res.status(200).send(posts))
+      .catch(err => {
+        res.status(500).send({ errorMessage: "Could not get Post" });
+        console.log(err)
+      });
+  },
 };
